@@ -44,8 +44,9 @@ include '../includes/db.php';
         }
 
         if (isset($_POST['update']) && !empty($updatedtitle) && !empty($updatedid)) {
-            $stmt = $pdo->prepare("UPDATE blog SET title = :title, text = :content, created_at = :time WHERE id = :id");
-            $stmt->execute(['title' => $updatedtitle, 'content' => $updatedcontent, 'id' => $updatedid, 'time' => $time]);
+            $up_time = date('Y-m-d H:i:s');
+            $stmt = $pdo->prepare("UPDATE blog SET title = :title, text = :content, updated_at = :up_time WHERE id = :id");
+            $stmt->execute(['title' => $updatedtitle, 'content' => $updatedcontent, 'id' => $updatedid, 'time' => $up_time]);
         }
 
         if (isset($_POST['delete']) && !empty($deletedid)) {
@@ -58,7 +59,7 @@ include '../includes/db.php';
     $stmt->execute();
     $tasks = $stmt->fetchAll();
     foreach ($tasks as $task) {
-        echo "<li>{$task['id']}. {$task['title']}</li><li><textarea>{$task['text']}</textarea></li><li><label>{$task['created_at']}</label></li>";
+        echo "<li>{$task['id']}. {$task['title']}</li><li><textarea>{$task['text']}</textarea></li><li><label>Created: {$task['created_at']}</label></li><li><label>Updated: {$task['updated_at']}</label></li>";
     }
     ?>
 </ul>
