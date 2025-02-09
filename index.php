@@ -3,7 +3,7 @@ session_start();
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
-    exit;
+    exit();
 }
 ?>
 
@@ -26,11 +26,11 @@ if (!isset($_SESSION['user_id'])) {
 
     <ul>
         <?php
-        $stmt = $pdo->prepare("SELECT * FROM blog ORDER BY id asc;");
+        $stmt = $pdo->prepare("SELECT blog.*, users.username FROM blog JOIN users ON blog.id=users.user_id+6 ORDER BY id asc;");
         $stmt->execute();
         $posts = $stmt->fetchAll();
         foreach ($posts as $post) {
-            echo "<li><a href='post.php?id={$post['id']}'>{$post['id']}. {$post['title']}</a></li>";
+            echo "<li><a href='post.php?id={$post['id']}'>{$post['id']}. {$post['title']}</a></li><li>Author: {$post['username']}</li><br>";
         }
         ?>
     </ul>
