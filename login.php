@@ -14,32 +14,42 @@
         <input type="password" id="password" name="password" required><br><br>
         <button type="submit">Login</button>
     </form>
-<?php
+
+    <?php
     include 'includes/db.php';
     session_start();
+
+    
+    if (isset($_SESSION['user_id'])) {
+        echo "You are already logged in. Redirecting to the index page...";
+        header('Refresh: 2; URL=index.php');
+        exit;
+    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = trim($_POST['username']);
         $password = trim($_POST['password']);
-
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
         $stmt->execute(['username' => $username]);
-        $user = $stmt->fetchAll();
+        $user = $stmt->fetch(); 
+
+        if ($user) {
+            echo "User found in the database.<br>";
+        } else {
+            echo "User not found in the database.<br>";
+        }
 
         if ($user && password_verify($password, $user['password'])) {
+            echo "Password verification successful.<br>";
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
-            
-            $id=$db->lastInsertId();
-            setcookie('user_id', $id, time() + 60);
+            setcookie('user_id', $user['user_id'], time() + 60);
             header('Location: index.php');
             exit;
         } else {
-            echo "Invalid username or password!\n If you are not registered yet, you can <a href='register.php'>register</a> now!";
-
+            echo "Invalid username or password! If you are not registered yet, you can <a href='register.php'>register</a> now!";
         }
     }
-?>
-
+    ?>
 </body>
 </html>
