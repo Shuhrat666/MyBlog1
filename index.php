@@ -21,12 +21,6 @@ if (!isset($_SESSION['user_id'])) {
 ?>
 
 <h1>All Blog Posts</h1>
-<!-- <h2>Search posts:</h2>
-<form method="get" action="View/searchResults.php">
-    <label for="post_title">Enter post title:</label>
-    <input type="text" id="post_title" name="title" placeholder="Title" required>
-    <button type="submit">Search</button>
-</form> -->
 
 <h2>Search posts :</h2>
 <form method="get" action="View/filtered_posts.php">
