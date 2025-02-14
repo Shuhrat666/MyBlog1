@@ -14,34 +14,38 @@ $username = isset($_GET['username']) ? $_GET['username'] : null;
 $created_at = isset($_GET['created_at']) ? $_GET['created_at'] : null;
 $updated_at = isset($_GET['updated_at']) ? $_GET['updated_at'] : null;
 $views = isset($_GET['views']) ? $_GET['views'] : null;
+if ($title || $username || $created_at || $updated_at || $views) {
+    $no_param=0;
+    $filters = [];
+    $params = [];
+    if ($title) {
+        $filters[] = 'blog.title LIKE :title';
+        $params['title'] = '%'.$title.'%';
+    }
+    if ($username) {
+        $filters[] = 'users.username = :username';
+        $params['username'] = $username;
+    }
+    if ($created_at) {
+        $filters[] = 'DATE(blog.created_at) = :created_at';
+        $params['created_at'] = $created_at;
+    }
+    if ($updated_at) {
+        $filters[] = 'DATE(blog.updated_at) = :updated_at';
+        $params['updated_at'] = $updated_at;
+    }
+    if ($views) {
+        $filters[] = 'blog.views >= :views';
+        $params['views'] = $views;
+    }
 
-$filters = [];
-$params = [];
-if ($title) {
-    $filters[] = 'blog.title LIKE :title';
-    $params['title'] = '%'.$title.'%';
-}
-if ($username) {
-    $filters[] = 'users.username = :username';
-    $params['username'] = $username;
-}
-if ($created_at) {
-    $filters[] = 'DATE(blog.created_at) = :created_at';
-    $params['created_at'] = $created_at;
-}
-if ($updated_at) {
-    $filters[] = 'DATE(blog.updated_at) = :updated_at';
-    $params['updated_at'] = $updated_at;
-}
-if ($views) {
-    $filters[] = 'blog.views >= :views';
-    $params['views'] = $views;
-}
+    $filter_query = '';
+    $filter_query = ' WHERE ' . implode(' AND ', $filters);
 
-$filter_query = '';
-$filter_query = ' WHERE ' . implode(' AND ', $filters);
-
-$posts = searchPosts($pdo, $filter_query, $params);
+    $posts = searchPosts($pdo, $filter_query, $params);
+} else {
+    $no_param=true;
+}
 ?>
 
 <!DOCTYPE html>
@@ -70,6 +74,10 @@ $posts = searchPosts($pdo, $filter_query, $params);
 
     <ul>
         <?php
+        if ($no_param) {
+            echo "<li>No search parametres entered !</li><br>
+                <label for='back'><a href='/index.php' class='button'>Back to Home</a></label>";
+        }
         if (count($posts) > 0) {
             foreach ($posts as $post) {
                 echo "<form><li><a href='post.php?id={$post['id']}'><b>{$post['id']}. Title:</b> {$post['title']}</a></li>
@@ -83,6 +91,6 @@ $posts = searchPosts($pdo, $filter_query, $params);
         }
         ?>
     </ul>
-    <label for="back"><a href="/index.php" class="button">Back to Home</a></label>
+    <br><label for="back"><a href="/index.php" class="button">Back to Home</a></label>
 </body>
 </html>
