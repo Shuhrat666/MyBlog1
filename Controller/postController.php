@@ -14,12 +14,18 @@ function UserPosts($pdo, $user_id) {
 }
 
 function searchPosts($pdo, $filter_query, $params) {
-    $query = "SELECT blog.*, users.username FROM blog JOIN users ON blog.author_id = users.user_id" . $filter_query . " AND blog.status='published' ORDER BY blog.id ASC";
+    $query = "SELECT blog.*, users.username FROM blog JOIN users ON blog.author_id = users.user_id" . $filter_query . " AND
+                 blog.status='published' ORDER BY blog.id ASC LIMIT :offset, :records_per_page";
     $stmt = $pdo->prepare($query);
-    $stmt->execute($params);
+    foreach ($params as $key => &$val) {
+        $stmt->bindParam($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+    }
+    $stmt->execute();
 
-    return $stmt->fetchAll();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
 
 function updatePostViews($pdo, $post_id) {
     $stmt = $pdo->prepare("UPDATE blog SET views = views + 1 WHERE id = :id");

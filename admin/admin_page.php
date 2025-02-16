@@ -29,10 +29,9 @@ include '../includes/db.php';
 </form>
 <ul>
     <?php
-    
     session_start();
     
-    if (!isset($_SESSION['password'])) {
+    if (!isset($_SESSION['admin_password'])) {
         header('Location: admin_login.php');
         exit();
     }
