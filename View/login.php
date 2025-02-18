@@ -22,7 +22,7 @@
     session_start();
     
     if (isset($_SESSION['user_id'])) {
-        echo "You are already logged in. Redirecting to the index page...";
+        echo "You are already logged in. Redirecting to the 'Home' page...";
         header('Refresh: 2; URL=/');
         exit;
     }

@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 require 'includes/db.php';  
 require 'Controller/postController.php';
 
+
 $default_records_per_page = 10;
 $records_per_page = isset($_GET['records_per_page']) ? (int)$_GET['records_per_page'] : $default_records_per_page;
 
@@ -38,10 +39,33 @@ $posts = $stmt->fetchAll();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MyBlog</title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <img src="https://cdn.logojoy.com/wp-content/uploads/2018/05/30164225/572-768x591.png" alt="Logo:" style="width: 80px; height: 60px;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="View/user_own_posts.php">My Posts</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="View/new_post.php">New Post</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="View/login.php">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>    
 <h1>All Blog Posts</h1>
 
 
@@ -94,5 +118,6 @@ $posts = $stmt->fetchAll();
     ?>
     <a href="index.php?page=<?php echo $current_page + 1>$total_pages ? $current_page : $current_page + 1; ?>&records_per_page=<?php echo $_GET['records_per_page']; ?>">Next</a>
 </div>
+<?php require 'View/footer.php';?>
 </body>
 </html>

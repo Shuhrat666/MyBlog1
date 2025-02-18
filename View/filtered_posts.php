@@ -15,7 +15,6 @@ $created_at = isset($_GET['created_at']) ? $_GET['created_at'] : null;
 $updated_at = isset($_GET['updated_at']) ? $_GET['updated_at'] : null;
 $views = isset($_GET['views']) ? $_GET['views'] : null;
 
-// Initialize records_per_page with a default value
 $default_records_per_page = 10;
 $records_per_page = isset($_GET['records_per_page']) ? (int)$_GET['records_per_page'] : $default_records_per_page;
 
@@ -74,9 +73,10 @@ $posts = searchPosts($pdo, $filter_query, $params);
 <head>
     <meta charset="UTF-8">
     <title>Filtered Blog Posts</title>
-    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
+<?php require 'header.php';?>
     <h1>Filtered Blog Posts</h1>
 
     <form method="get" action="filtered_posts.php">
@@ -135,7 +135,8 @@ $posts = searchPosts($pdo, $filter_query, $params);
         echo '</div>';
     }
     ?>
-    <br><label for="back"><a href="/index.php" class="button">Back to Home</a></label>
+    <br><label for="back"><a href="/index.php" class="button">Back to Home</a></label><br>
+    <?php require 'footer.php';?>
 </body>
 </html>
 

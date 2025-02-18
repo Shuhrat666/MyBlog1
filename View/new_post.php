@@ -33,9 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Add New Post</title>
-    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
+<?php require 'header.php';?>
     <h2>Add New Post</h2>
     <form method="post" action="new_post.php">
         <label for="title">Title:</label><br>
@@ -45,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" name="publish">Publish</button>
         <button type="submit" name="draft">Draft</button>
     </form>
-    <label for="back"><a href="/index.php" class="button">Back to Home</a></label>
+    <label for="back"><a href="/index.php" class="button">Back to Home</a></label><br>
+    <?php require 'footer.php';?>
 </body>
 </html>

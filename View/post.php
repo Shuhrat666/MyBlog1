@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MyBlog</title>
-    <link rel="stylesheet" href="../styles/styles.css">
+    <title>View Post</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
 
 <?php
 require '../includes/db.php';
 require '../Controller/postController.php';
+require 'header.php';
 session_start();
 
 $post_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -104,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<label for="back"><a href="/index.php" class="button">Back to Home</a></label>
-
+<label for="back"><a href="/index.php" class="button">Back to Home</a></label><br>
+<?php require 'footer.php';?>
 </body>
 </html>
